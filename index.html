@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChronoHub - Digital Clock Suite</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo"><i class="fa-solid fa-clock"></i> Chrono<span>Hub</span></div>
+    <ul class="nav-links">
+      <li><button class="nav-btn active" data-tab="home"><i class="fa-solid fa-house"></i> Home</button></li>
+      <li><button class="nav-btn" data-tab="clock"><i class="fa-regular fa-clock"></i> Digital Clock</button></li>
+      <li><button class="nav-btn" data-tab="world"><i class="fa-solid fa-globe"></i> World Clock</button></li>
+      <li><button class="nav-btn" data-tab="stopwatch"><i class="fa-solid fa-stopwatch"></i> Stopwatch</button></li>
+      <li><button class="nav-btn" data-tab="timer"><i class="fa-solid fa-hourglass-half"></i> Timer</button></li>
+      <li><button class="nav-btn" data-tab="calendar"><i class="fa-regular fa-calendar-days"></i> Calendar</button></li>
+      <li><button class="nav-btn" data-tab="about"><i class="fa-solid fa-circle-info"></i> About</button></li>
+    </ul>
+    <button id="themeToggle" class="theme-btn"><i class="fa-solid fa-moon"></i></button>
+  </nav>
+
+  <main class="content-container">
+    <!-- Home Tab -->
+    <section id="home" class="tab-pane active">
+      <div class="hero">
+        <h1>Smart Temporal Dashboard</h1>
+        <p>A multi-utility web application featuring precision timing, multi-timezone monitoring, and scheduling tools.</p>
+        <div class="card-grid">
+          <div class="feature-card" onclick="switchTab('clock')"><i class="fa-regular fa-clock"></i><h3>Digital Clock</h3><p>Live display with 12/24h formats</p></div>
+          <div class="feature-card" onclick="switchTab('world')"><i class="fa-solid fa-globe"></i><h3>World Clock</h3><p>Track global time zones</p></div>
+          <div class="feature-card" onclick="switchTab('stopwatch')"><i class="fa-solid fa-stopwatch"></i><h3>Stopwatch</h3><p>High-precision lap measurement</p></div>
+          <div class="feature-card" onclick="switchTab('timer')"><i class="fa-solid fa-hourglass-half"></i><h3>Timer</h3><p>Sound alert countdowns</p></div>
+          <div class="feature-card" onclick="switchTab('calendar')"><i class="fa-regular fa-calendar-days"></i><h3>Calendar</h3><p>Monthly view with note logging</p></div>
+          <div class="feature-card" onclick="switchTab('about')"><i class="fa-solid fa-circle-info"></i><h3>About</h3><p>Project documentation & stack info</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Digital Clock Tab -->
+    <section id="clock" class="tab-pane">
+      <div class="utility-box">
+        <div class="clock-display">
+          <span id="clockTime">00:00:00</span>
+          <span id="clockAmPm" class="ampm">AM</span>
+        </div>
+        <div id="clockDate" class="date-display">Loading date...</div>
+        <div class="controls-row">
+          <button id="toggleFormatBtn" class="action-btn">Switch to 24-Hour</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- World Clock Tab -->
+    <section id="world" class="tab-pane">
+      <h2>Global Time Zones</h2>
+      <div class="world-grid" id="worldClockGrid"></div>
+    </section>
+
+    <!-- Stopwatch Tab -->
+    <section id="stopwatch" class="tab-pane">
+      <div class="utility-box">
+        <div class="clock-display" id="stopwatchDisplay">00:00:00.00</div>
+        <div class="controls-row">
+          <button id="startStopwatchBtn" class="action-btn primary">Start</button>
+          <button id="lapStopwatchBtn" class="action-btn" disabled>Lap</button>
+          <button id="resetStopwatchBtn" class="action-btn danger" disabled>Reset</button>
+        </div>
+        <ul id="lapList" class="lap-container"></ul>
+      </div>
+    </section>
+
+    <!-- Timer Tab -->
+    <section id="timer" class="tab-pane">
+      <div class="utility-box">
+        <div class="clock-display" id="timerDisplay">00:00:00</div>
+        <div class="timer-inputs">
+          <input type="number" id="timerHours" min="0" max="99" placeholder="HH" value="0">
+          <span>:</span>
+          <input type="number" id="timerMinutes" min="0" max="59" placeholder="MM" value="5">
+          <span>:</span>
+          <input type="number" id="timerSeconds" min="0" max="59" placeholder="SS" value="0">
+        </div>
+        <div class="controls-row">
+          <button id="startTimerBtn" class="action-btn primary">Start</button>
+          <button id="resetTimerBtn" class="action-btn danger">Reset</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Calendar Tab -->
+    <section id="calendar" class="tab-pane">
+      <div class="calendar-wrapper">
+        <div class="calendar-header">
+          <button id="prevMonthBtn" class="action-btn"><i class="fa-solid fa-chevron-left"></i></button>
+          <h2 id="monthYearLabel">Month Year</h2>
+          <button id="nextMonthBtn" class="action-btn"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+        <div class="calendar-grid" id="calendarDays"></div>
+        <div class="calendar-notes">
+          <h3>Saved Date Reminders</h3>
+          <ul id="calendarEventsList"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Tab -->
+    <section id="about" class="tab-pane">
+      <div class="about-card">
+        <h2>About ChronoHub</h2>
+        <p><strong>Project Type:</strong> Web Development Mini Project</p>
+        <p><strong>Architecture:</strong> Pure Vanilla Client-Side Web Application (HTML5, CSS3, ES6 JavaScript)</p>
+        <p><strong>Features:</strong> Real-time asynchronous timers, Web Audio API synthesis, local storage state persistence, and responsive glassmorphism UI.</p>
+        <hr>
+        <p>Built for academic project evaluation.</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
