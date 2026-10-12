@@ -927,6 +927,7 @@ function saveNoteForSelectedDate() {
   showToast('Reminder saved', 'success');
 }
 
+
 function deleteNote(index) {
   const dateKey = state.calendar.selectedDateStr;
   if (state.calendar.notes[dateKey]) {
