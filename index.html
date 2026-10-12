@@ -3,104 +3,157 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ChronoHub - Digital Clock Suite</title>
-  <link rel="stylesheet" href="style.css">
+  <title>ChronoHub - Smart Temporal Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <nav class="navbar">
-    <div class="logo"><i class="fa-solid fa-clock"></i> Chrono<span>Hub</span></div>
-    <ul class="nav-links">
-      <li><button class="nav-btn active" data-tab="home"><i class="fa-solid fa-house"></i> Home</button></li>
-      <li><button class="nav-btn" data-tab="clock"><i class="fa-regular fa-clock"></i> Digital Clock</button></li>
-      <li><button class="nav-btn" data-tab="world"><i class="fa-solid fa-globe"></i> World Clock</button></li>
-      <li><button class="nav-btn" data-tab="stopwatch"><i class="fa-solid fa-stopwatch"></i> Stopwatch</button></li>
-      <li><button class="nav-btn" data-tab="timer"><i class="fa-solid fa-hourglass-half"></i> Timer</button></li>
-      <li><button class="nav-btn" data-tab="calendar"><i class="fa-regular fa-calendar-days"></i> Calendar</button></li>
-      <li><button class="nav-btn" data-tab="about"><i class="fa-solid fa-circle-info"></i> About</button></li>
-    </ul>
-    <button id="themeToggle" class="theme-btn"><i class="fa-solid fa-moon"></i></button>
-  </nav>
+  <div class="bg-glow-orb orb-1"></div>
+  <div class="bg-glow-orb orb-2"></div>
 
-  <main class="content-container">
+  <!-- Glass Navbar -->
+  <header class="navbar-wrapper">
+    <nav class="navbar">
+      <div class="brand" onclick="switchTab('home')">
+        <i class="fa-solid fa-clock logo-icon"></i>
+        <span>Chrono<strong>Hub</strong></span>
+      </div>
+      <ul class="nav-links">
+        <li><button class="nav-btn active" data-tab="home"><i class="fa-solid fa-house"></i> <span>Home</span></button></li>
+        <li><button class="nav-btn" data-tab="clock"><i class="fa-regular fa-clock"></i> <span>Digital Clock</span></button></li>
+        <li><button class="nav-btn" data-tab="world"><i class="fa-solid fa-globe"></i> <span>World Clock</span></button></li>
+        <li><button class="nav-btn" data-tab="stopwatch"><i class="fa-solid fa-stopwatch"></i> <span>Stopwatch</span></button></li>
+        <li><button class="nav-btn" data-tab="timer"><i class="fa-solid fa-hourglass-half"></i> <span>Timer</span></button></li>
+        <li><button class="nav-btn" data-tab="calendar"><i class="fa-regular fa-calendar-days"></i> <span>Calendar</span></button></li>
+        <li><button class="nav-btn" data-tab="about"><i class="fa-solid fa-circle-info"></i> <span>About</span></button></li>
+      </ul>
+      <div class="nav-actions">
+        <button id="themeToggle" class="icon-btn" title="Toggle Theme"><i class="fa-solid fa-moon"></i></button>
+      </div>
+    </nav>
+  </header>
+
+  <main class="main-content">
     <!-- Home Tab -->
     <section id="home" class="tab-pane active">
-      <div class="hero">
-        <h1>Smart Temporal Dashboard</h1>
-        <p>A multi-utility web application featuring precision timing, multi-timezone monitoring, and scheduling tools.</p>
-        <div class="card-grid">
-          <div class="feature-card" onclick="switchTab('clock')"><i class="fa-regular fa-clock"></i><h3>Digital Clock</h3><p>Live display with 12/24h formats</p></div>
-          <div class="feature-card" onclick="switchTab('world')"><i class="fa-solid fa-globe"></i><h3>World Clock</h3><p>Track global time zones</p></div>
-          <div class="feature-card" onclick="switchTab('stopwatch')"><i class="fa-solid fa-stopwatch"></i><h3>Stopwatch</h3><p>High-precision lap measurement</p></div>
-          <div class="feature-card" onclick="switchTab('timer')"><i class="fa-solid fa-hourglass-half"></i><h3>Timer</h3><p>Sound alert countdowns</p></div>
-          <div class="feature-card" onclick="switchTab('calendar')"><i class="fa-regular fa-calendar-days"></i><h3>Calendar</h3><p>Monthly view with note logging</p></div>
-          <div class="feature-card" onclick="switchTab('about')"><i class="fa-solid fa-circle-info"></i><h3>About</h3><p>Project documentation & stack info</p></div>
+      <div class="hero-section">
+        <h1 class="hero-title">Smart Temporal Dashboard</h1>
+        <p class="hero-subtitle">A multi-utility web application featuring precision timing, multi-timezone monitoring, and scheduling tools.</p>
+        <div class="grid-cards">
+          <div class="dashboard-card" onclick="switchTab('clock')">
+            <div class="icon-wrap"><i class="fa-regular fa-clock"></i></div>
+            <h3>Digital Clock</h3>
+            <p>Live display with 12/24h formats</p>
+          </div>
+          <div class="dashboard-card" onclick="switchTab('world')">
+            <div class="icon-wrap"><i class="fa-solid fa-globe"></i></div>
+            <h3>World Clock</h3>
+            <p>Track global time zones</p>
+          </div>
+          <div class="dashboard-card" onclick="switchTab('stopwatch')">
+            <div class="icon-wrap"><i class="fa-solid fa-stopwatch"></i></div>
+            <h3>Stopwatch</h3>
+            <p>High-precision lap measurement</p>
+          </div>
+          <div class="dashboard-card" onclick="switchTab('timer')">
+            <div class="icon-wrap"><i class="fa-solid fa-hourglass-half"></i></div>
+            <h3>Timer</h3>
+            <p>Sound alert countdowns</p>
+          </div>
+          <div class="dashboard-card" onclick="switchTab('calendar')">
+            <div class="icon-wrap"><i class="fa-regular fa-calendar-days"></i></div>
+            <h3>Calendar</h3>
+            <p>Monthly view with note logging</p>
+          </div>
+          <div class="dashboard-card" onclick="switchTab('about')">
+            <div class="icon-wrap"><i class="fa-solid fa-circle-info"></i></div>
+            <h3>About</h3>
+            <p>Project documentation & stack info</p>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- Digital Clock Tab -->
     <section id="clock" class="tab-pane">
-      <div class="utility-box">
-        <div class="clock-display">
+      <div class="glass-container text-center">
+        <span class="badge">Live System Clock</span>
+        <div class="clock-readout">
           <span id="clockTime">00:00:00</span>
-          <span id="clockAmPm" class="ampm">AM</span>
+          <span id="clockAmPm" class="clock-sub">AM</span>
         </div>
-        <div id="clockDate" class="date-display">Loading date...</div>
-        <div class="controls-row">
-          <button id="toggleFormatBtn" class="action-btn">Switch to 24-Hour</button>
+        <div id="clockDate" class="clock-date">Loading date...</div>
+        <div class="button-group">
+          <button id="toggleFormatBtn" class="glow-btn">Switch to 24-Hour</button>
         </div>
       </div>
     </section>
 
     <!-- World Clock Tab -->
     <section id="world" class="tab-pane">
-      <h2>Global Time Zones</h2>
-      <div class="world-grid" id="worldClockGrid"></div>
+      <div class="section-heading">
+        <h2>Global Timezones</h2>
+        <p>Live synchronized offsets across primary world financial centers</p>
+      </div>
+      <div class="grid-cards" id="worldClockGrid"></div>
     </section>
 
     <!-- Stopwatch Tab -->
     <section id="stopwatch" class="tab-pane">
-      <div class="utility-box">
-        <div class="clock-display" id="stopwatchDisplay">00:00:00.00</div>
-        <div class="controls-row">
-          <button id="startStopwatchBtn" class="action-btn primary">Start</button>
-          <button id="lapStopwatchBtn" class="action-btn" disabled>Lap</button>
-          <button id="resetStopwatchBtn" class="action-btn danger" disabled>Reset</button>
+      <div class="glass-container text-center">
+        <span class="badge">Millisecond Precision</span>
+        <div class="clock-readout" id="stopwatchDisplay">00:00:00.00</div>
+        <div class="button-group">
+          <button id="startStopwatchBtn" class="glow-btn btn-primary">Start</button>
+          <button id="lapStopwatchBtn" class="glow-btn" disabled>Lap</button>
+          <button id="resetStopwatchBtn" class="glow-btn btn-danger" disabled>Reset</button>
         </div>
-        <ul id="lapList" class="lap-container"></ul>
+        <ul id="lapList" class="data-log-list"></ul>
       </div>
     </section>
 
     <!-- Timer Tab -->
     <section id="timer" class="tab-pane">
-      <div class="utility-box">
-        <div class="clock-display" id="timerDisplay">00:00:00</div>
-        <div class="timer-inputs">
-          <input type="number" id="timerHours" min="0" max="99" placeholder="HH" value="0">
-          <span>:</span>
-          <input type="number" id="timerMinutes" min="0" max="59" placeholder="MM" value="5">
-          <span>:</span>
-          <input type="number" id="timerSeconds" min="0" max="59" placeholder="SS" value="0">
+      <div class="glass-container text-center">
+        <span class="badge">Countdown Engine</span>
+        <div class="clock-readout" id="timerDisplay">00:05:00</div>
+        <div class="timer-input-group">
+          <div class="input-unit">
+            <input type="number" id="timerHours" min="0" max="99" value="0">
+            <span>Hours</span>
+          </div>
+          <span class="colon">:</span>
+          <div class="input-unit">
+            <input type="number" id="timerMinutes" min="0" max="59" value="5">
+            <span>Mins</span>
+          </div>
+          <span class="colon">:</span>
+          <div class="input-unit">
+            <input type="number" id="timerSeconds" min="0" max="59" value="0">
+            <span>Secs</span>
+          </div>
         </div>
-        <div class="controls-row">
-          <button id="startTimerBtn" class="action-btn primary">Start</button>
-          <button id="resetTimerBtn" class="action-btn danger">Reset</button>
+        <div class="button-group">
+          <button id="startTimerBtn" class="glow-btn btn-primary">Start Timer</button>
+          <button id="resetTimerBtn" class="glow-btn btn-danger">Reset</button>
         </div>
       </div>
     </section>
 
     <!-- Calendar Tab -->
     <section id="calendar" class="tab-pane">
-      <div class="calendar-wrapper">
-        <div class="calendar-header">
-          <button id="prevMonthBtn" class="action-btn"><i class="fa-solid fa-chevron-left"></i></button>
-          <h2 id="monthYearLabel">Month Year</h2>
-          <button id="nextMonthBtn" class="action-btn"><i class="fa-solid fa-chevron-right"></i></button>
+      <div class="calendar-container">
+        <div class="calendar-top">
+          <button id="prevMonthBtn" class="icon-nav-btn"><i class="fa-solid fa-chevron-left"></i></button>
+          <h2 id="monthYearLabel">October 2026</h2>
+          <button id="nextMonthBtn" class="icon-nav-btn"><i class="fa-solid fa-chevron-right"></i></button>
         </div>
-        <div class="calendar-grid" id="calendarDays"></div>
-        <div class="calendar-notes">
-          <h3>Saved Date Reminders</h3>
+        <div class="calendar-board" id="calendarDays"></div>
+        <div class="calendar-events">
+          <h4><i class="fa-solid fa-bookmark"></i> Date Reminders</h4>
           <ul id="calendarEventsList"></ul>
         </div>
       </div>
@@ -110,11 +163,17 @@
     <section id="about" class="tab-pane">
       <div class="about-card">
         <h2>About ChronoHub</h2>
-        <p><strong>Project Type:</strong> Web Development Mini Project</p>
-        <p><strong>Architecture:</strong> Pure Vanilla Client-Side Web Application (HTML5, CSS3, ES6 JavaScript)</p>
-        <p><strong>Features:</strong> Real-time asynchronous timers, Web Audio API synthesis, local storage state persistence, and responsive glassmorphism UI.</p>
-        <hr>
-        <p>Built for academic project evaluation.</p>
+        <div class="meta-tags">
+          <span>Client-Side Architecture</span>
+          <span>Web Audio API</span>
+          <span>Zero External Libs</span>
+        </div>
+        <p><strong>Project Overview:</strong> ChronoHub is a unified temporal workstation designed to replace disparate clock, timer, and stopwatch tabs with a single responsive UI.</p>
+        <div class="stack-breakdown">
+          <div><strong>HTML5:</strong> Semantic elements, accessible form controls, clean hierarchical routing.</div>
+          <div><strong>CSS3:</strong> Glassmorphism styling, CSS custom variable theming, dynamic radial blur glow effects.</div>
+          <div><strong>JavaScript ES6+:</strong> Native <code>Intl.DateTimeFormat</code>, <code>Date.now()</code> elapsed differential calculations, Web Audio synthetic frequencies.</div>
+        </div>
       </div>
     </section>
   </main>

@@ -1,24 +1,27 @@
-// Navigation & Tabs
+// Tab Switching
 const navButtons = document.querySelectorAll('.nav-btn');
 const tabPanes = document.querySelectorAll('.tab-pane');
 
 function switchTab(tabId) {
   navButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.tab === tabId));
   tabPanes.forEach(pane => pane.classList.toggle('active', pane.id === tabId));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-navButtons.forEach(btn => btn.addEventListener('click', () => switchTab(btn.dataset.tab)));
-
-// Theme Toggle
-const themeToggle = document.getElementById('themeToggle');
-themeToggle.addEventListener('click', () => {
-  const currentTheme = document.body.getAttribute('data-theme');
-  const targetTheme = currentTheme === 'light' ? 'dark' : 'light';
-  document.body.setAttribute('data-theme', targetTheme);
-  themeToggle.innerHTML = targetTheme === 'light' ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+navButtons.forEach(btn => {
+  btn.addEventListener('click', () => switchTab(btn.dataset.tab));
 });
 
-// Digital Clock
+// Dark / Light Theme Toggle
+const themeToggle = document.getElementById('themeToggle');
+themeToggle.addEventListener('click', () => {
+  const current = document.body.getAttribute('data-theme');
+  const target = current === 'light' ? 'dark' : 'light';
+  document.body.setAttribute('data-theme', target);
+  themeToggle.innerHTML = target === 'light' ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+});
+
+// Digital Clock Logic
 let is24Hour = false;
 const clockTime = document.getElementById('clockTime');
 const clockAmPm = document.getElementById('clockAmPm');
@@ -48,7 +51,7 @@ function updateDigitalClock() {
 setInterval(updateDigitalClock, 1000);
 updateDigitalClock();
 
-// World Clock
+// World Clock Module
 const timeZones = [
   { city: 'London (GMT)', zone: 'Europe/London' },
   { city: 'New York (EST)', zone: 'America/New_York' },
@@ -73,15 +76,19 @@ function updateWorldClock() {
     }).format(now);
 
     const card = document.createElement('div');
-    card.className = 'world-card';
-    card.innerHTML = `<h3>${city}</h3><div class="world-time">${timeString}</div>`;
+    card.className = 'dashboard-card';
+    card.innerHTML = `
+      <div class="icon-wrap"><i class="fa-solid fa-earth-americas"></i></div>
+      <h3>${city}</h3>
+      <div class="world-time">${timeString}</div>
+    `;
     container.appendChild(card);
   });
 }
 setInterval(updateWorldClock, 1000);
 updateWorldClock();
 
-// Stopwatch
+// Precision Stopwatch
 let stopwatchTimer = null;
 let stopwatchStart = 0;
 let stopwatchElapsed = 0;
@@ -108,14 +115,16 @@ startStopwatchBtn.addEventListener('click', () => {
       stopwatchDisplay.textContent = formatStopwatch(stopwatchElapsed);
     }, 20);
     startStopwatchBtn.textContent = 'Pause';
-    startStopwatchBtn.classList.add('danger');
+    startStopwatchBtn.classList.add('btn-danger');
+    startStopwatchBtn.classList.remove('btn-primary');
     lapStopwatchBtn.disabled = false;
     resetStopwatchBtn.disabled = false;
   } else {
     clearInterval(stopwatchTimer);
     stopwatchTimer = null;
     startStopwatchBtn.textContent = 'Resume';
-    startStopwatchBtn.classList.remove('danger');
+    startStopwatchBtn.classList.remove('btn-danger');
+    startStopwatchBtn.classList.add('btn-primary');
   }
 });
 
@@ -132,30 +141,38 @@ resetStopwatchBtn.addEventListener('click', () => {
   lapCounter = 1;
   stopwatchDisplay.textContent = '00:00:00.00';
   startStopwatchBtn.textContent = 'Start';
-  startStopwatchBtn.classList.remove('danger');
+  startStopwatchBtn.classList.remove('btn-danger');
+  startStopwatchBtn.classList.add('btn-primary');
   lapStopwatchBtn.disabled = true;
   resetStopwatchBtn.disabled = true;
   lapList.innerHTML = '';
 });
 
-// Timer
+// Countdown Timer with Web Audio API chime
 let timerInterval = null;
 let timerTotalSeconds = 0;
 const timerDisplay = document.getElementById('timerDisplay');
 const startTimerBtn = document.getElementById('startTimerBtn');
 const resetTimerBtn = document.getElementById('resetTimerBtn');
 
-function playBeep() {
+function playAudioAlert() {
   try {
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     const osc = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
+
     osc.type = 'sine';
     osc.frequency.setValueAtTime(880, audioCtx.currentTime);
-    osc.connect(audioCtx.destination);
+    gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.8);
+
+    osc.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+
     osc.start();
-    osc.stop(audioCtx.currentTime + 0.6);
+    osc.stop(audioCtx.currentTime + 0.8);
   } catch (e) {
-    console.warn('AudioContext not allowed without user interaction');
+    console.warn('AudioContext requires direct user interaction');
   }
 }
 
@@ -171,11 +188,14 @@ startTimerBtn.addEventListener('click', () => {
     const h = parseInt(document.getElementById('timerHours').value) || 0;
     const m = parseInt(document.getElementById('timerMinutes').value) || 0;
     const s = parseInt(document.getElementById('timerSeconds').value) || 0;
+
     if (timerTotalSeconds === 0) timerTotalSeconds = h * 3600 + m * 60 + s;
     if (timerTotalSeconds <= 0) return;
 
     updateTimerDisplay(timerTotalSeconds);
     startTimerBtn.textContent = 'Pause';
+    startTimerBtn.classList.add('btn-danger');
+    startTimerBtn.classList.remove('btn-primary');
 
     timerInterval = setInterval(() => {
       timerTotalSeconds--;
@@ -183,14 +203,18 @@ startTimerBtn.addEventListener('click', () => {
       if (timerTotalSeconds <= 0) {
         clearInterval(timerInterval);
         timerInterval = null;
-        playBeep();
-        startTimerBtn.textContent = 'Start';
+        playAudioAlert();
+        startTimerBtn.textContent = 'Start Timer';
+        startTimerBtn.classList.remove('btn-danger');
+        startTimerBtn.classList.add('btn-primary');
       }
     }, 1000);
   } else {
     clearInterval(timerInterval);
     timerInterval = null;
     startTimerBtn.textContent = 'Resume';
+    startTimerBtn.classList.remove('btn-danger');
+    startTimerBtn.classList.add('btn-primary');
   }
 });
 
@@ -198,11 +222,16 @@ resetTimerBtn.addEventListener('click', () => {
   clearInterval(timerInterval);
   timerInterval = null;
   timerTotalSeconds = 0;
-  updateTimerDisplay(0);
-  startTimerBtn.textContent = 'Start';
+  const h = parseInt(document.getElementById('timerHours').value) || 0;
+  const m = parseInt(document.getElementById('timerMinutes').value) || 0;
+  const s = parseInt(document.getElementById('timerSeconds').value) || 0;
+  updateTimerDisplay(h * 3600 + m * 60 + s);
+  startTimerBtn.textContent = 'Start Timer';
+  startTimerBtn.classList.remove('btn-danger');
+  startTimerBtn.classList.add('btn-primary');
 });
 
-// Calendar
+// Interactive Calendar
 let currentDate = new Date();
 
 function renderCalendar() {
@@ -216,7 +245,7 @@ function renderCalendar() {
 
   ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].forEach(d => {
     const el = document.createElement('div');
-    el.className = 'calendar-day-header';
+    el.className = 'calendar-col-head';
     el.textContent = d;
     daysContainer.appendChild(el);
   });
@@ -231,7 +260,7 @@ function renderCalendar() {
 
   for (let d = 1; d <= daysInMonth; d++) {
     const cell = document.createElement('div');
-    cell.className = 'calendar-cell';
+    cell.className = 'cal-cell';
     cell.textContent = d;
 
     if (d === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
@@ -239,7 +268,7 @@ function renderCalendar() {
     }
 
     cell.addEventListener('click', () => {
-      const note = prompt(`Add a reminder for ${month + 1}/${d}/${year}:`);
+      const note = prompt(`Add a reminder note for ${month + 1}/${d}/${year}:`);
       if (note) {
         const item = document.createElement('li');
         item.textContent = `${month + 1}/${d}/${year}: ${note}`;
